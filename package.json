@@ -1,0 +1,104 @@
+{
+  "name": "managed-workspaces",
+  "displayName": "Managed Workspaces",
+  "publisher": "softalks",
+  "description": "Enable dynamic workspace folder management with open/close capabilities and auto-add/remove functionality based on predefined filesystem folders",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.98.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./out/main.js",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "Managed Workspaces",
+      "properties": {
+        "projects.unmanaged.list": {
+          "type": "array"
+        },
+        "projects.list.black": {
+          "type": "array"
+        },
+        "projects.list.white": {
+          "type": "array"
+        },
+        "softalks.managedWorkspaces.baseFolder": {
+          "type": "string",
+          "markdownDescription": "The base path of the next folder to be mirrored by a VS Code workspace"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "softalks.managedWorkspaces.createFromFolder",
+        "title": "Create a workspace file managed by a filesystem folder",
+        "category": "Managed Workspaces"
+      },
+      {
+        "command": "projects.open.one",
+        "title": "Open Project",
+        "category": "Managed Workspaces",
+        "when": "workspaceFolderCount > 1"
+      },
+      {
+        "command": "projects.open.many",
+        "title": "Open Projects",
+        "category": "Managed Workspaces",
+        "when": "workspaceFolderCount > 1"
+      },
+      {
+        "command": "projects.close.one",
+        "title": "Close Project",
+        "category": "Managed Workspaces",
+        "when": "workspaceFolderCount > 1"
+      },
+      {
+        "command": "projects.close.many",
+        "title": "Close Projects",
+        "category": "Managed Workspaces",
+        "when": "workspaceFolderCount > 1"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "projects.open.one",
+             "when": "explorerResourceIsRoot && resourceDirname =~ /closed-projects/ && !listMultiSelection",
+            "group": "0_mws"
+        },
+        {
+          "command": "projects.open.many",
+             "when": "explorerResourceIsRoot && resourceDirname =~ /closed-projects/ && listMultiSelection",
+            "group": "0_mws"
+        },
+        {
+          "command": "projects.close.one",
+          "when": "explorerResourceIsRoot && !(resourceDirname =~ /closed-projects/) && !listMultiSelection",
+            "group": "0_mws"
+        },
+        {
+          "command": "projects.close.many",
+             "when": "explorerResourceIsRoot && !(resourceDirname =~ /closed-projects/) && listMultiSelection",
+            "group": "0_mws"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "20.x",
+    "@types/vscode": "^1.97.2",
+    "typescript": "^5.1.0"
+  },
+  "dependencies": {
+    "glob": "^11.0.1"
+  }
+}
