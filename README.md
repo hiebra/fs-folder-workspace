@@ -1,3 +1,3 @@
 # fs-folder-workspace README
 
-TODO
+Allows using Workspaces managed by the contents of filesystem folders
